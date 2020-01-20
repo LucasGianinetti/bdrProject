@@ -8,6 +8,8 @@ session_start();
         session_destroy();
         unset($_SESSION);
         header("Location: Login.php");
+    }if(isset($_GET['account'])){
+        header("Location: Account.php");
     }
 
 ?>
@@ -80,6 +82,8 @@ input[type=submit] {
 </style>
 </head>     
 <body>
+    
+<a href="index.php?account=true">Account info</a>
 
 <h2>Autocomplete</h2>
 

@@ -27,7 +27,8 @@ require_once "connexion bbd.php";
     
     <h1>Songs:</h1>
 <?php
-    $reponse = $bdd->query("SELECT Music.id, title FROM Music INNER JOIN Artist ON Artist.id = Music.idArtist INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track.id = Track_Adaptation.idTrack WHERE Music.idArtist = " . $_GET['id']);
+    $reponse = $bdd->query("SELECT music.id, music.title FROM music INNER JOIN track_adaptation ON track_adaptation.idTrack = music.id
+    WHERE track_adaptation.idAlbum IS NULL AND music.idArtist =" . $_GET['id']);
     ?>
      <table data-toggle="table" class="bg-light text-dark">
     <thead >
@@ -45,7 +46,7 @@ require_once "connexion bbd.php";
 </tbody></table>
     <h1>Albums:</h1>
 <?php
-    $reponse2 = $bdd->query("SELECT Music.id, title FROM Music INNER JOIN Artist ON Artist.id = Music.idArtist INNER JOIN Album ON Album.id = Music.id WHERE Music.idArtist = " . $_GET['id']);
+    $reponse2 = $bdd->query("SELECT Music.id, title FROM Music INNER JOIN Artist ON Artist.id = Music.idArtist INNER JOIN Album ON Album.id = Music.id  WHERE Music.idArtist = " . $_GET['id']);
     ?>
      <table data-toggle="table" class="bg-light text-dark">
     <thead >

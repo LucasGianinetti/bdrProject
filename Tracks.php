@@ -43,19 +43,19 @@ require_once "connexion bbd.php";
     
     <h1>Recommendations:</h1>
 <?php
-    $reponse3 = $bdd->query("SELECT Music.id, Music.title, adaptationName FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON idTrack = Track.id WHERE Music.title = '$title' AND Track_Adaptation.adaptationName != '$adaptation'");
+    $reponse3 = $bdd->query("SELECT Music.id, title, adaptationName, Track_Genre.idGenre  FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track_Adaptation.idTrack = Track.id  INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack WHERE Music.title = '$title' AND Track_Adaptation.adaptationName != '$adaptation'");
     while($ligne3 = $reponse3->fetch()){
         ?>
-            <a href="Tracks.php?id=<?= $ligne3["id"] ?>"><p><?= $ligne3["adaptationName"]?></p></a>
+           <a href="Tracks.php?id=<?= $ligne3["id"] ?>&title=<?= $ligne3["title"]?>&adaptation=<?= $ligne3["adaptationName"]?>&genre=<?= $ligne3["idGenre"]?>"><p><?= $ligne3["adaptationName"]?></p></a>
         <?php 
     }
     ?>
 
 <?php
-    $reponse4 = $bdd->query("SELECT Music.id, Music.title FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack WHERE Music.title != '$title' AND Track_Genre.idGenre = '$genre' LIMIT 3");
+    $reponse4 = $bdd->query("SELECT Music.id, title, adaptationName, Track_Genre.idGenre  FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track_Adaptation.idTrack = Track.id  INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack WHERE Music.title != '$title' AND Track_Genre.idGenre = '$genre' LIMIT 3");
     while($ligne4 = $reponse4->fetch()){
         ?>
-            <a href="Tracks.php?id=<?= $ligne4["id"] ?>"><p><?= $ligne4["title"]?></p></a>
+           <a href="Tracks.php?id=<?= $ligne4["id"] ?>&title=<?= $ligne4["title"]?>&adaptation=<?= $ligne4["adaptationName"]?>&genre=<?= $ligne4["idGenre"]?>"><p><?= $ligne4["title"]?></p></a>
         <?php 
     }
     ?>

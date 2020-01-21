@@ -119,7 +119,7 @@ CREATE TABLE Genre(
 );
 
 CREATE TABLE Adaptation(
-	adaptationName VARCHAR(20) PRIMARY KEY
+	adaptationName VARCHAR(20) PRIMARY KEY DEFAULT 'Original'
 );
 
 CREATE TABLE Track_Genre(
@@ -137,7 +137,7 @@ CREATE TABLE Track_Genre(
 CREATE TABLE Track_Adaptation(
 	id INT(11) PRIMARY KEY AUTO_INCREMENT,
     idTrack INT(11) NOT NULL,
-    adaptationName VARCHAR(20) NOT NULL,
+    adaptationName VARCHAR(20),
     releaseDate DATE,
     FOREIGN KEY(idTrack) REFERENCES Track(id)
 		ON UPDATE CASCADE
@@ -215,13 +215,13 @@ INSERT INTO Band_Solo (id, dateEntry)
 VALUES (3, '2009.01.01'), (4, '2009.01.01');
 
 INSERT INTO Music (idArtist, title)
-VALUES (5, "Beggin by letting go"), (2, "Piano only"), (null, "Recognise"), (6, "Begging by letting go (Remix)");
+VALUES (5, "Beggin by letting go"), (2, "Piano only"), (5, "In Stillness"), (6, "Begging by letting go (Remix)");
  
 INSERT INTO Album
 VALUES (3, '2015.01.01');
 
 INSERT INTO Artist_Album
-VALUES (3, 3), (4, 3);
+VALUES (5, 3);
 
 INSERT INTO Track 
 VALUES (1, '2:00'), (2, '3:00'), (4, '3:00');
@@ -236,7 +236,9 @@ INSERT INTO Track_Genre
 VALUES (1, "Drum'n bass"), (2, "Drum'n bass"), (4, "Drum'n bass");
 
 INSERT INTO Track_Adaptation(idTrack, adaptationName, releaseDate)
-VALUES (4, "Remix", "2019-01-01");
+VALUES (4, "Remix", "2019.01.01");
+INSERT INTO Track_Adaptation(idTrack, releaseDate)
+VALUES (1, "2019.01.01"), (2, "2018.12.12");
 
 INSERT INTO LinkTrack(idTrack, link)
 VALUES (1, "tracks\Beggin by letting go.mp3");

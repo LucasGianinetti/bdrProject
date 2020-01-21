@@ -1,5 +1,10 @@
 <?php
 require_once "connexion bbd.php";
+    if(isset($_GET['logout'])){
+        session_destroy();
+        unset($_SESSION);
+        header("Location: Login.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -10,8 +15,11 @@ require_once "connexion bbd.php";
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
 </head>
 <body>
-    
-    
+
+    <a href="index.php?logout=true" class="btn btn-primary">Logout</a>    
+	<a href="Account.php" class="btn btn-primary">Account info</a>
+    <a href="index.php" class="btn btn-primary">Home</a>    
+
 
 <?php 
 

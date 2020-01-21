@@ -1,11 +1,25 @@
 <?php
-error_reporting(0);
+session_start();
 require_once "connexion bbd.php";
     if(isset($_GET['logout'])){
         session_destroy();
         unset($_SESSION);
         header("Location: Login.php");
+    }if(isset($_POST['like'])){  
+                   $idUser = $_SESSION['userlogin']['id'];
+                    $idMusic = $_GET['id'];
+                   $sql = "INSERT INTO Customer_Music (idUser, idMusic)
+                            VALUES(?,?);";
+                    $stmtinsert = $bdd->prepare($sql);
+                    $result = $stmtinsert->execute([$idUser,$idMusic]);
+        }
+        if(isset($_POST['dislike'])){
+                    $idUser = $_SESSION['userlogin']['id'];
+                    $idMusic = $_GET['id'];
+                    $sql = "DELETE FROM Customer_Music WHERE idUser ='$idUser' AND idMusic ='$idMusic'";
+                    $bdd->exec($sql);
     }
+
 ?>
 
 <!DOCTYPE html>
@@ -16,19 +30,6 @@ require_once "connexion bbd.php";
 
         <script src="jquery-3.4.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-        <script >
-        $(document).ready(function(){
-        $('.button').click(function(){
-            var clickBtnValue = $(this).val();
-            var ajaxurl = "like.php",
-            data =  {'action': clickBtnValue};
-            $.post(ajaxurl, data, function (data) {
-                alert("action performed successfully");
-            });
-        });
-    });
-    </script>
 </head>
 <body>
     
@@ -44,6 +45,8 @@ require_once "connexion bbd.php";
     $adaptation = $_GET['adaptation'];
     ?>
     
+    
+    
     <h1><?=$title?></h1>
     
 <?php
@@ -57,10 +60,11 @@ require_once "connexion bbd.php";
     <p>Length : <?= $ligne2["length"] ?> </p>
     <p>Artist : <a href="Artist.php?id=<?= $ligne2["id"] ?>"><?= $ligne2["stagename"]?></a>
     <p>Genre : <?= $genre ?></p>
-    
+
+<form method="post">
 <input type="submit" class="button" name="like" value="like" />
 <input type="submit" class="button" name="dislike" value="dislike" />
-    
+</form>
     <h1>Recommendations:</h1>
 <?php
     $reponse3 = $bdd->query("SELECT Music.id, title, adaptationName, Track_Genre.idGenre  FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track_Adaptation.idTrack = Track.id  INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack WHERE Music.title = '$title' AND Track_Adaptation.adaptationName != '$adaptation'");
@@ -100,7 +104,6 @@ require_once "connexion bbd.php";
         <?php
     }
     ?>
-
     
 </body>
 </html>

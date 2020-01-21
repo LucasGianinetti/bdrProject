@@ -37,8 +37,7 @@ require_once "connexion bbd.php";
     
     <h1>Songs:</h1>
 <?php
-    $reponse = $bdd->query("SELECT music.id, music.title FROM music INNER JOIN track_adaptation ON track_adaptation.idTrack = music.id
-    WHERE track_adaptation.idAlbum IS NULL AND music.idArtist =" . $_GET['id']);
+    $reponse = $bdd->query("SELECT Music.id, title, adaptationName, Track_Genre.idGenre  FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track_Adaptation.idTrack = Track.id  INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack WHERE track_adaptation.idAlbum IS NULL AND music.idArtist =" . $_GET['id']);
     ?>
      <table data-toggle="table" class="bg-light text-dark">
     <thead >
@@ -49,7 +48,7 @@ require_once "connexion bbd.php";
     while($ligne = $reponse->fetch()){
     ?>
     <tr><td>
-    <a href="Tracks.php?id=<?= $ligne["id"] ?>"><p><?= $ligne["title"]?></p></a></td></tr>
+    <a href="Tracks.php?id=<?= $ligne["id"] ?>&title=<?= $ligne["title"]?>&adaptation=<?= $ligne["adaptationName"]?>&genre=<?= $ligne["idGenre"]?>"><p><?= $ligne["title"]?></p></a></td></tr>
         <?php 
     }
     ?>

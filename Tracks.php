@@ -46,16 +46,26 @@ require_once "connexion bbd.php";
     $reponse3 = $bdd->query("SELECT Music.id, title, adaptationName, Track_Genre.idGenre  FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track_Adaptation.idTrack = Track.id  INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack WHERE Music.title = '$title' AND Track_Adaptation.adaptationName != '$adaptation'");
     while($ligne3 = $reponse3->fetch()){
         ?>
-           <a href="Tracks.php?id=<?= $ligne3["id"] ?>&title=<?= $ligne3["title"]?>&adaptation=<?= $ligne3["adaptationName"]?>&genre=<?= $ligne3["idGenre"]?>"><p><?= $ligne3["adaptationName"]?></p></a>
+           <a href="Tracks.php?id=<?= $ligne3["id"] ?>&title=<?= $ligne3["title"]?>&adaptation=<?= $ligne3["adaptationName"]?>&genre=<?= $ligne3["idGenre"]?>"><p><?= $ligne3["title"]?> (<?= $ligne3["adaptationName"]?>)</p></a>
         <?php 
     }
     ?>
 
 <?php
-    $reponse4 = $bdd->query("SELECT Music.id, title, adaptationName, Track_Genre.idGenre  FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track_Adaptation.idTrack = Track.id  INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack WHERE Music.title != '$title' AND Track_Genre.idGenre = '$genre' LIMIT 3");
+    $reponse4 = $bdd->query("SELECT Music.id, title, adaptationName, Track_Genre.idGenre  FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track_Adaptation.idTrack = Track.id  INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack WHERE Music.title != '$title' AND Track_Genre.idGenre = '$genre' LIMIT 4");
     while($ligne4 = $reponse4->fetch()){
         ?>
-           <a href="Tracks.php?id=<?= $ligne4["id"] ?>&title=<?= $ligne4["title"]?>&adaptation=<?= $ligne4["adaptationName"]?>&genre=<?= $ligne4["idGenre"]?>"><p><?= $ligne4["title"]?></p></a>
+           <a href="Tracks.php?id=<?= $ligne4["id"] ?>&title=<?= $ligne4["title"]?>&adaptation=<?= $ligne4["adaptationName"]?>&genre=<?= $ligne4["idGenre"]?>"><p><?= $ligne4["title"]?>
+               
+           <?php
+            if($ligne4["adaptationName"] != "Original"){
+                ?>
+                    (<?=$ligne4["adaptationName"]?>)
+            <?php
+                } 
+            ?>
+               
+               </p></a>
         <?php 
     }
     ?>

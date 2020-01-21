@@ -18,9 +18,9 @@ require_once "connexion bbd.php";
     
     <a href="Tracks.php?logout=true" class="btn btn-primary">Logout</a>    
     <a href="Account.php" class="btn btn-primary">Account info</a> 
-    <a href="index.php" class="btn btn-primary">Home</a>    
-
-
+    <a href="index.php" class="btn btn-primary">Home</a>   
+    
+    
 <?php
     $reponse1 = $bdd->query("SELECT Adaptation.adaptationName FROM Track INNER JOIN Track_Adaptation ON Track.id = Track_Adaptation.idTrack INNER JOIN Adaptation ON Track_Adaptation.adaptationName = Adaptation.adaptationName WHERE Track.id = " . $_GET['id']);
     $ligne1 = $reponse1->fetch();
@@ -37,7 +37,17 @@ require_once "connexion bbd.php";
     
     <h1>Recommendations:</h1>
 <?php
-    $reponse3 = $bdd->query("SELECT Track.id, Music.title FROM Track INNER JOIN Music ON Music.id = Track.id INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack INNER JOIN Genre ON Track_Genre.idGenre = Genre.label WHERE Track.id =" . $_GET['id']);
+    $reponse4 = $bdd->query("SELECT Track.id, Music.title FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track:Aaptation.idTrack ");
+    while($ligne4 = $reponse4->fetch()){
+        ?>
+        <a href="Tracks.php?id=<?= $ligne4["id"] ?>"><p><?= $ligne4["title"]?> </p></a>
+        <?php
+    }
+    ?>
+    
+     
+<?php
+    $reponse3 = $bdd->query("SELECT Track.id, Music.title FROM Track INNER JOIN Music ON Music.id = Track.id INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack INNER JOIN Genre ON Track_Genre.idGenre = Genre.label INNER JOIN Track_Adaptation ON Track_Adaptation.idTrack = Track.id WHERE Track.id !=" . $_GET['id']);
     while($ligne3 = $reponse3->fetch()){
         ?>
         <a href="Tracks.php?id=<?= $ligne3["id"] ?>"><p><?= $ligne3["title"]?> </p></a>

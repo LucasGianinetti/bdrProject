@@ -5,14 +5,10 @@ require_once "connexion bbd.php";
 <!DOCTYPE html>
 <html>
 <head>
-    <title> User Registreation</title>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="loginStyle.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="loginStyle.css">
 </head>
 <body>
-
     
 <form action="SignUp.php" method="post">
   <div class="container">
@@ -36,9 +32,11 @@ require_once "connexion bbd.php";
               
                 <label for="psw" ><b>Password</b></label>
                 <input class="form-control" type="password" id="password" name="password" required>
+              
                 <hr class="mb-3">
                 <input class="btn btn-primary"type="submit" id="register" name="create" value="Sign up">
-                
+              
+                <a href="Login.php" class="btn btn-primary">Log in</a>
          </div>
       </div>
   </div>
@@ -85,7 +83,6 @@ require_once "connexion bbd.php";
             });
             
         });
-
     </script>
 </form>
 

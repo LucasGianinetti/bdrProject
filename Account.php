@@ -1,6 +1,11 @@
 <?php
 session_start();
 require_once "connexion bbd.php";
+    if(isset($_GET['logout'])){
+        session_destroy();
+        unset($_SESSION);
+        header("Location: Login.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +15,9 @@ require_once "connexion bbd.php";
     <link rel="stylesheet" type="text/css" href="loginStyle.css">
 </head>
 <body>
-    
+<a href="account.php?logout=true" class="btn btn-primary">Logout</a>    
+<a href="index.php" class="btn btn-primary">Home</a>    
+
     
     
 <?php
@@ -22,7 +29,7 @@ require_once "connexion bbd.php";
     <h1>Account from  <?= $usernameCustomer ?> </h1>
     <p> Firstname: <?= $ligne["firstname"] ?> </p>
     <p> Lastname: <?= $ligne["lastname"] ?> </p>
-    <p> Birthday: <?= $ligne["birthdate"] ?> </p>
+    <p> Birth date: <?= $ligne["birthdate"] ?> </p>
     
 
     
@@ -30,5 +37,3 @@ require_once "connexion bbd.php";
     
     </body>
 </html>
-    
-    

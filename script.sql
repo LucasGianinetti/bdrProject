@@ -206,7 +206,7 @@ INSERT INTO Band_Solo (id, dateEntry)
 VALUES (3, '2009.01.01'), (4, '2009.01.01');
 
 INSERT INTO Music (idArtist, title)
-VALUES (5, "Beggin by letting go"), (1, "Piano only"), (5, "In Stillness"), (6, "Beggin by letting go"), (5,"A Hundred Oceans"), (5, "Fire Lit Sky"), (5, "Bear's Breeches");
+VALUES (5, "Beggin by letting go"), (1, "Piano only"), (5, "In Stillness"), (6, "Beggin by letting go"), (5,"A Hundred Oceans"), (5, "Fire Lit Sky"), (5, "Bears Breeches");
 
 INSERT INTO Album
 VALUES (3, '2015.01.01');

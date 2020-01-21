@@ -13,6 +13,8 @@ require_once "connexion bbd.php";
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="loginStyle.css">
 </head>
 <body>
 
@@ -27,9 +29,8 @@ require_once "connexion bbd.php";
 	$ligne = $reponse->fetch();
 
 
-	$reponse2 = $bdd->query("SELECT music.id, music.title FROM music INNER JOIN track_adaptation ON track_adaptation.idTrack = music.id INNER JOIN album ON track_adaptation.idAlbum = album.id WHERE album.id = " . $_GET['id']);
+	$reponse2 = $bdd->query("    SELECT Music.id, title, adaptationName, Track_Genre.idGenre  FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track_Adaptation.idTrack = Track.id  INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack INNER JOIN album ON track_adaptation.idAlbum = album.id WHERE album.id = " . $_GET['id']);
 	?>
-
 
 
 	<table data-toggle="table" class="bg-light text-dark">

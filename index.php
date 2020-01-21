@@ -8,8 +8,6 @@ session_start();
         session_destroy();
         unset($_SESSION);
         header("Location: Login.php");
-    }if(isset($_GET['account'])){
-        header("Location: Account.php");
     }
 ?>
 

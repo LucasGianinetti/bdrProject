@@ -53,7 +53,7 @@ require_once "connexion bbd.php";
                   
                 break;
             case "title":
-                $reponse = $bdd->query("SELECT id, title FROM Music WHERE Music.title LIKE '%$keywords%'");
+                $reponse = $bdd->query("SELECT Music.id, title, adaptationName, Track_Genre.idGenre  FROM Music INNER JOIN Track ON Track.id = Music.id INNER JOIN Track_Adaptation ON Track_Adaptation.idTrack = Track.id  INNER JOIN Track_Genre ON Track.id = Track_Genre.idTrack WHERE Music.title LIKE '%$keywords%'");
                 ?>
                  <table data-toggle="table" class="bg-light text-dark">
                 <thead >
@@ -64,7 +64,7 @@ require_once "connexion bbd.php";
                 while($ligne = $reponse->fetch()){
                 ?>
                 <tr><td>
-                <a href="Tracks.php?id=<?= $ligne["id"] ?>"><p><?= $ligne["title"]?></p></a></td></tr>
+                <a href="Tracks.php?id=<?= $ligne["id"] ?>&title=<?= $ligne["title"]?>&adaptation=<?= $ligne["adaptationName"]?>&genre=<?= $ligne["idGenre"]?>"><p><?= $ligne["title"]?></p></a></td></tr>
                 <?php 
                 }
                 ?>
@@ -83,7 +83,7 @@ require_once "connexion bbd.php";
                 while($ligne = $reponse->fetch()){
                     ?>
                     <tr><td>
-                <a href="Tracks.php?id=<?= $ligne["id"] ?>"><p><?= $ligne["title"]?></p></a></td></tr>
+                <a href="Album.php?id=<?= $ligne["id"] ?>"><p><?= $ligne["title"]?></p></a></td></tr>
                 <?php
                 }
                 ?>

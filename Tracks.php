@@ -1,6 +1,11 @@
 <?php
 error_reporting(0);
 require_once "connexion bbd.php";
+    if(isset($_GET['logout'])){
+        session_destroy();
+        unset($_SESSION);
+        header("Location: Login.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +16,11 @@ require_once "connexion bbd.php";
 </head>
 <body>
     
-    
+    <a href="Tracks.php?logout=true" class="btn btn-primary">Logout</a>    
+    <a href="Account.php" class="btn btn-primary">Account info</a> 
+    <a href="index.php" class="btn btn-primary">Home</a>    
+
+
 <?php
     $reponse1 = $bdd->query("SELECT Adaptation.adaptationName FROM Track INNER JOIN Track_Adaptation ON Track.id = Track_Adaptation.idTrack INNER JOIN Adaptation ON Track_Adaptation.adaptationName = Adaptation.adaptationName WHERE Track.id = " . $_GET['id']);
     $ligne1 = $reponse1->fetch();

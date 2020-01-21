@@ -62,7 +62,7 @@ CREATE TABLE Music(
         ON DELETE CASCADE
 );
 
-CREATE TABLE User_Music(
+CREATE TABLE Customer_Music(
 	idUser INT(11),
 	idMusic INT(11),
     FOREIGN KEY(idUser) REFERENCES Customer(id)
@@ -82,19 +82,7 @@ CREATE TABLE Album(
         ON DELETE CASCADE
 );
 
-CREATE TABLE Artist_Album(
-	idArtist INT(11),
-	idAlbum INT(11),
-    FOREIGN KEY(idArtist) REFERENCES Artist(id)
-		ON UPDATE CASCADE
-        ON DELETE CASCADE,
-	FOREIGN KEY(idAlbum) REFERENCES Album(id)
-		ON UPDATE CASCADE
-        ON DELETE CASCADE,
-	PRIMARY KEY(idArtist, idAlbum)
-);
-
-CREATE TABLE User_Album(
+CREATE TABLE Customer_Album(
 	idUser INT(11),
 	idAlbum INT(11),
     FOREIGN KEY(idUser) REFERENCES Customer(id)
@@ -147,7 +135,7 @@ CREATE TABLE Track_Adaptation(
         ON DELETE CASCADE
 );
 
-CREATE TABLE User_Track_Adaptation(
+CREATE TABLE Customer_Track_Adaptation(
 	idUser INT(11),
     idTrackAdaptation INT(11),
     grade INT(1),
@@ -215,13 +203,10 @@ INSERT INTO Band_Solo (id, dateEntry)
 VALUES (3, '2009.01.01'), (4, '2009.01.01');
 
 INSERT INTO Music (idArtist, title)
-VALUES (5, "Beggin by letting go"), (2, "Piano only"), (5, "In Stillness"), (6, "Begging by letting go (Remix)");
+VALUES (5, "Beggin by letting go"), (1, "Piano only"), (5, "In Stillness"), (6, "Begging by letting go (Remix)");
  
 INSERT INTO Album
 VALUES (3, '2015.01.01');
-
-INSERT INTO Artist_Album
-VALUES (5, 3);
 
 INSERT INTO Track 
 VALUES (1, '2:00'), (2, '3:00'), (4, '3:00');

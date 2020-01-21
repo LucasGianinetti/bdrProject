@@ -1,4 +1,3 @@
-
 <?php
 error_reporting(0);
 require_once "connexion bbd.php";
@@ -14,6 +13,22 @@ require_once "connexion bbd.php";
 <head>
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="loginStyle.css">
+
+        <script src="jquery-3.4.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <script >
+        $(document).ready(function(){
+        $('.button').click(function(){
+            var clickBtnValue = $(this).val();
+            var ajaxurl = "like.php",
+            data =  {'action': clickBtnValue};
+            $.post(ajaxurl, data, function (data) {
+                alert("action performed successfully");
+            });
+        });
+    });
+    </script>
 </head>
 <body>
     
@@ -42,6 +57,9 @@ require_once "connexion bbd.php";
     <p>Length : <?= $ligne2["length"] ?> </p>
     <p>Artist : <a href="Artist.php?id=<?= $ligne2["id"] ?>"><?= $ligne2["stagename"]?></a>
     <p>Genre : <?= $genre ?></p>
+    
+<input type="submit" class="button" name="like" value="like" />
+<input type="submit" class="button" name="dislike" value="dislike" />
     
     <h1>Recommendations:</h1>
 <?php

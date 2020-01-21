@@ -107,7 +107,7 @@ CREATE TABLE Genre(
 );
 
 CREATE TABLE Adaptation(
-	adaptationName VARCHAR(50) PRIMARY KEY DEFAULT 'Original'
+	adaptationName VARCHAR(50) PRIMARY KEY
 );
 
 CREATE TABLE Track_Genre(
@@ -125,9 +125,8 @@ CREATE TABLE Track_Genre(
 CREATE TABLE Track_Adaptation(
 	id INT(11) PRIMARY KEY AUTO_INCREMENT,
     idTrack INT(11) NOT NULL,
-    idArtist INT(11) NOT NULL,
     idAlbum INT(11),
-    adaptationName VARCHAR(50),
+    adaptationName VARCHAR(50) NOT NULL DEFAULT 'Original',
     releaseDate DATE,
     FOREIGN KEY(idTrack) REFERENCES Track(id)
 		ON UPDATE CASCADE
@@ -137,10 +136,7 @@ CREATE TABLE Track_Adaptation(
         ON DELETE CASCADE,
 	FOREIGN KEY (idAlbum) REFERENCES Album(id)
 		ON UPDATE CASCADE
-        ON DELETE SET NULL,
-	FOREIGN KEY (idArtist) REFERENCES Artist(id)
-		ON UPDATE CASCADE
-        ON DELETE CASCADE
+        ON DELETE SET NULL
 );
 
 CREATE TABLE Customer_Track_Adaptation(
@@ -170,10 +166,10 @@ VALUES ("Keen", "Will", '1994.02.26'), ("Van der Schoot", "Mark", "1990-10-04"),
 		("Vahrman", "Fred", '1990.01.12'),
         ("Jackson", "Josh", '1991.06.14'),
         ("Allen", "Edward", '1990.12.12'),
-        ("Hine", "William", '1994.09.16'), ("Gianinetti","Lucas",'1994.01.30');
+        ("Hine", "William", '1994.09.16');
 
 INSERT INTO Artist
-VALUES (1, "Keeno"), (2, "Maduk"), (3, "Fred V"), (4, "Grafix"), (5, "Etherwood"), (6, "Whiney"),(7,"Shakolaz");
+VALUES (1, "Keeno"), (2, "Maduk"), (3, "Fred V"), (4, "Grafix"), (5, "Etherwood"), (6, "Whiney");
 
 INSERT INTO Solo(id, biography)
 VALUES (1, "Will Keen (born 26 February 1994), known by his stage name Keeno, is a British record producer and DJ from Winchester, renowned for adding orchestral elements to drum and bass. His debut album Life Cycle was released on 30 June 2014 through Hospital Records' imprint label
@@ -201,10 +197,8 @@ Liquicity Records, Viper Recordings as well as Monstercat and Fokuz Recordings.
 With over twelve years spent in choirs, orchestras and grade eight achievements in both violin and piano,
  it was inevitable that music was going to play a prominent role in Will’s future. 
  After discovering a love for Pendulum and becoming inspired to delve into the world of music production, Whiney had his debut release on Subsphere Recordings back in 2012,
- an exquisite collaboration with Keeno called the “Sweetest Sin” EP."),
- (7,"WORKING ON BDR PROJECT");
+ an exquisite collaboration with Keeno called the “Sweetest Sin” EP.");
  
-
 INSERT INTO Band
 VALUES (3, "Fred V & Grafix"), (4, "Fred V & Grafix");
 
@@ -212,29 +206,29 @@ INSERT INTO Band_Solo (id, dateEntry)
 VALUES (3, '2009.01.01'), (4, '2009.01.01');
 
 INSERT INTO Music (idArtist, title)
-VALUES (5, "Beggin by letting go"), (1, "Piano only"), (5, "In Stillness"), (6, "Begging by letting go (Remix)"),
-	(7,"Music_Shakolaz1"),(7,"Album_Shakolaz");
+VALUES (5, "Beggin by letting go"), (1, "Piano only"), (5, "In Stillness"), (6, "Beggin by letting go"), (5,"A Hundred Oceans"), (5, "Fire Lit Sky"), (5, "Bear's Breeches");
+
 INSERT INTO Album
-VALUES (3, '2015.01.01'), (6, '1995.01.30');
+VALUES (3, '2015.01.01');
 
 INSERT INTO Track 
-VALUES (1, '2:00'), (2, '3:00'), (4, '3:00'),(5, '7:59');
+VALUES (1, '2:43'), (2, '3:25'), (4, '3:43'), (5, '3:21'), (6, '3:21'), (7, '2:50');
 
 INSERT INTO Genre
-VALUES ("Drum'n bass");
+VALUES ("Drum and bass");
 
 INSERT INTO Adaptation
-VALUES ("Remix");
+VALUES ("Original"), ("Remix");
 
 INSERT INTO Track_Genre
-VALUES (1, "Drum'n bass"), (2, "Drum'n bass"), (4, "Drum'n bass");
+VALUES (1, "Drum and bass"), (2, "Drum and bass"), (4, "Drum and bass"), (5, "Drum and bass"), (6, "Drum and bass"), (7, "Drum and bass");
 
-INSERT INTO Track_Adaptation(idTrack, idArtist,adaptationName, releaseDate)
-VALUES (4, 3,"Remix", "2019.01.01");
-INSERT INTO Track_Adaptation(idTrack, idArtist,idAlbum, releaseDate)
-VALUES (5,7,6,'1995.01.30');
-INSERT INTO Track_Adaptation(idTrack,idArtist,releaseDate)
-VALUES (1, 3,"2019.01.01"), (2, 3,"2018.12.12");
+INSERT INTO Track_Adaptation(idTrack,adaptationName, releaseDate)
+VALUES (4,"Remix", "2019.01.01");
+INSERT INTO Track_Adaptation(idTrack, releaseDate)
+VALUES (1, "2019.01.01"), (2,"2018.12.12");
+INSERT INTO Track_Adaptation(idTrack, idAlbum, releaseDate)
+VALUES (5, 3, "2019.10.09"), (6, 3, "2019.10.09"), (7, 3, "2019.10.09"); 
 
 INSERT INTO LinkTrack(idTrack, link)
-VALUES (1, "tracks\Beggin by letting go.mp3");
+VALUES (1, "tracks/Beggin by letting go.mp3");

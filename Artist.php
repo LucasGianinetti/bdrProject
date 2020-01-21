@@ -1,5 +1,10 @@
 <?php
 require_once "connexion bbd.php";
+    if(isset($_GET['logout'])){
+        session_destroy();
+        unset($_SESSION);
+        header("Location: Login.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +16,11 @@ require_once "connexion bbd.php";
 </head>
 <body class="bg-info">
  
+ <a href="Artist.php?logout=true" class="btn btn-primary">Logout</a>    
+<a href="Account.php" class="btn btn-primary">Account info</a>
+<a href="index.php" class="btn btn-primary">Home</a>    
+
+
 <?php
     $reponse = $bdd->query("SELECT Person.id, firstname, lastname, stagename, birthdate, biography FROM Person INNER JOIN Artist ON Person.id = Artist.id INNER JOIN Solo ON Solo.id = Person.id WHERE Person.id=" . $_GET['id']);
     $ligne = $reponse->fetch();

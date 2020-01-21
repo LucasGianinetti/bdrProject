@@ -8,12 +8,24 @@
   </head>
 <body class="bg-info">
 
+<a href="search.php?logout=true" class="btn btn-primary">Logout</a>    
+<a href="Account.php" class="btn btn-primary">Account info</a>
+<a href="index.php" class="btn btn-primary">Home</a>    
+
+
 <h1>Results : </h1>
 
 
 <?php
 error_reporting(0);
 require_once "connexion bbd.php";
+    if(isset($_GET['logout'])){
+        session_destroy();
+        unset($_SESSION);
+        header("Location: Login.php");
+    }
+
+
     if(isset($_GET['keywords']) && isset($_GET['field'])) {
       $keywords = $bdd->quote($_GET['keywords']);
       $keywords = str_replace("'","",$keywords);

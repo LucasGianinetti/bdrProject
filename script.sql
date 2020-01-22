@@ -81,8 +81,12 @@ CREATE TABLE Customer_Music(
 
 CREATE TABLE Album(
 	id INT(11) PRIMARY KEY,
+    idArtist INT(11),
 	releaseDate DATE NOT NULL,
     FOREIGN KEY(id) REFERENCES Music(id)
+		ON UPDATE CASCADE
+        ON DELETE CASCADE,
+	FOREIGN KEY(idArtist) REFERENCES Artist(id)
 		ON UPDATE CASCADE
         ON DELETE CASCADE
 );
@@ -168,26 +172,54 @@ CREATE TABLE LinkTrack(
 );
 
 DELIMITER $$
-CREATE TRIGGER check_releaseDate_1
-BEFORE INSERT ON Album
+CREATE TRIGGER check_birthdate
+BEFORE INSERT ON Person
 FOR EACH ROW
 BEGIN
-	IF(NEW.releaseDate > CURRENT_DATE())
+	IF(NEW.birthdate > CURRENT_DATE())
     THEN SIGNAL SQLSTATE '45000'
-		SET message_text = 'Error, releaseDate is wrong.';
+		SET message_text = 'Error, birthdate is wrong.';
 	END IF;
 END
 $$
 
 DELIMITER $$
-CREATE TRIGGER check_releaseDate_2
+CREATE TRIGGER check_releaseDate_1
 BEFORE INSERT ON Track_Adaptation
 FOR EACH ROW
 BEGIN
-	IF(NEW.releaseDate > CURRENT_DATE())
+  DECLARE birthdayArtist DATE;
+    SET birthdayArtist = (
+    SELECT birthdate 
+		FROM Person 
+        INNER JOIN Music
+			ON Music.id = NEW.idTrack
+		WHERE Person.id = Music.idArtist
+    );
+  IF(NEW.releaseDate > CURRENT_DATE() OR birthdayArtist > NEW.releaseDate)
     THEN SIGNAL SQLSTATE '45000'
-		SET message_text = 'Error, releaseDate is wrong.';
-	END IF;
+      SET message_text = 'Error, releaseDate is wrong.';
+  END IF;
+END
+$$
+
+
+DELIMITER $$
+CREATE TRIGGER check_releaseDate_2 BEFORE INSERT ON Album
+FOR EACH ROW
+BEGIN
+  DECLARE birthdayArtist DATE;
+    SET birthdayArtist = (
+    SELECT birthdate 
+		FROM Person 
+        INNER JOIN Music
+			ON Music.id = NEW.id
+            WHERE Person.id = New.idArtist
+    );
+  IF(NEW.releaseDate > CURRENT_DATE() OR birthdayArtist > NEW.releaseDate)
+    THEN SIGNAL SQLSTATE '45000'
+      SET message_text = 'Error, releaseDate is wrong.';
+  END IF;
 END
 $$
 
@@ -195,9 +227,41 @@ DELIMITER $$
 CREATE TRIGGER date_check BEFORE INSERT ON Band_Solo
 FOR EACH ROW
 BEGIN
-  IF NEW.dateEntry > New.dateExit
-    THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error, dateEntry cannot be after dateExit';
+	DECLARE creationDate DATE;
+	DECLARE soloBirthDate DATE;
+    SET creationDate=(
+		SELECT birthdate 
+			FROM Person 
+		WHERE Person.id = New.idBand);
+    SET soloBirthDate=(
+		SELECT birthdate
+			FROM Person
+		WHERE Person.id = New.idSolo);
+  IF (NEW.dateEntry > New.dateExit OR New.dateEntry < creationDate OR New.dateEntry < soloBirthDate OR New.dateExit > current_date() OR NEW.dateEntry > CURRENT_DATE())
+    THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error, dateEntry cannot be after dateExit or before band creation date';
   END IF;
+END
+$$
+
+
+
+DELIMITER $$
+CREATE TRIGGER grade_check1 BEFORE INSERT ON Customer_Track_Adaptation
+FOR EACH ROW
+BEGIN
+	IF NEW.grade < '1' OR New.grade > '5'
+    THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error, grade value is not between 1 and 5';
+    END IF;
+END
+$$
+
+DELIMITER $$
+CREATE TRIGGER grade_check2 BEFORE INSERT ON Customer_Album
+FOR EACH ROW
+BEGIN
+	IF NEW.grade < '1' OR New.grade > '5'
+    THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error, grade value is not between 1 and 5';
+    END IF;
 END
 $$
 
@@ -244,7 +308,7 @@ INSERT INTO Music (idArtist, title)
 VALUES (5, "Beggin by letting go"), (1, "Piano only"), (5, "In Stillness"), (6, "Beggin by letting go"), (5,"A Hundred Oceans"), (5, "Fire Lit Sky"), (5, "Bears Breeches");
 
 INSERT INTO Album
-VALUES (3, '2017.01.01');
+VALUES (3,1, '2017.01.01');
 
 INSERT INTO Track 
 VALUES (1, '2:43'), (2, '3:25'), (4, '3:43'), (5, '3:21'), (6, '3:21'), (7, '2:50');
